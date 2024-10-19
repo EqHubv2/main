@@ -1,0 +1,94 @@
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "My airport [BETA]",
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Home", Icon = "maximize" })
+
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "EqHub",
+        Content = "Made by @Fxdogxd",
+        SubContent = "Ugly name lol", -- Optional
+        Duration = 5 -- Set to nil to make the notification not disappear
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Home",
+        Content = "Have some function in here!"
+    })
+
+
+
+
+
+
+  Tabs.Main:AddButton({
+        Title = "Spawn INF money",
+        Description = "Working!",
+        Callback = function()
+
+game.ReplicatedStorage.Event.Cash:FireServer(8999999999999999999+1)
+
+        end
+    })
+   
+    
+
+  local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Admin gui (secret function in game)", Default = false })
+
+    Toggle:OnChanged(function()
+
+local js = Options.MyToggle.Value
+
+
+if js == true then 
+game.Players.LocalPlayer.PlayerGui.Admin.Enabled = true
+
+else
+
+
+game.Players.LocalPlayer.PlayerGui.Admin.Enabled = false
+
+end
+
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+
+
+
+
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+end

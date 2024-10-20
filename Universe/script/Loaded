@@ -15,7 +15,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/Tougu
 elseif Fuckingdick == 286090429 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/arsenal/script/source/loaded"))()
 
-elseif Fuckingdick == 13772394625 or 16281300371 then
+elseif Fuckingdick == 16281300371 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/bladeball/source/script/loaded"))()
 
 elseif Fuckingdick == 12768419991 then
@@ -24,7 +24,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/game/
 elseif Fuckingdick == 6403373529 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapbattles/script/loaded"))()
 
-elseif Fuckingdick == 828390957664947 then
+elseif Fuckingdick == 82830957664947 then
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/Myairport%5BBETA%5D/Loaded"))()
 

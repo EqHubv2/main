@@ -1,33 +1,194 @@
-print("╭━━━╮╱╱╱╭╮╱╭╮╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━━━╮╭━━━╮")
-print("┃╭━━╯╱╱╱┃┃╱┃┃╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭━╮┃┃╭━╮┃")
-print("┃╰━━┳━━╮┃╰━╯┣╮╭┫╰━╮╭╮╭┳━━┳━┳━━┳┳━━┳━╮╱╰╯╭╯┃┃┃┃┃┃")
-print("┃╭━━┫╭╮┃┃╭━╮┃┃┃┃╭╮┃┃╰╯┃┃━┫╭┫━━╋┫╭╮┃╭╮╮╭━╯╭╯┃┃┃┃┃")
-print("┃╰━━┫╰╯┃┃┃╱┃┃╰╯┃╰╯┃╰╮╭┫┃━┫┃┣━━┃┃╰╯┃┃┃┃┃┃╰━┳┫╰━╯┃")
-print("╰━━━┻━╮┃╰╯╱╰┻━━┻━━╯╱╰╯╰━━┻╯╰━━┻┻━━┻╯╰╯╰━━━┻┻━━━╯")
-print("╱╱╱╱╱╱┃┃")
-print("╱╱╱╱╱╱╰╯")
+
+local sigma = game.PlaceId
+local bruh = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
+
+print("PlaceId : " .. sigma)
+print("Walkspeed : " .. bruh)
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Loading Script",
+    Duration = 0
+})
+
+-- Define supported game IDs
+local supportedIDs = {
+    one = 16721806812,
+    two = 286090429,
+    four = 12768419991,
+    five = 6403373529,
+    six = 82830957664947
+}
+
+print("Support Games :")
+print("ID One: " .. supportedIDs.one)
+print("ID Two: " .. supportedIDs.two)
+print("ID Four: " .. supportedIDs.four)
+print("ID Five: " .. supportedIDs.five)
+print("ID Six: " .. supportedIDs.six)
+print("----------------------------------------")
+
+wait(0.8)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Check PlaceId",
+    Duration = 0
+})
+wait(0.8)
+
+print("Status : 🟡")
+
+local isSupported = false
+for _, id in pairs(supportedIDs) do
+    if sigma == id then
+        isSupported = true
+        break
+    end
+end
+
+if isSupported then
+
+
+
+
+
+
+else
+    print("Status : 🔴 Error Wrong PlaceId")
+
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Eq Hub",
+        Text = "Error: Wrong PlaceId. Try to join a support game!",
+        Duration = 2
+    })
+    
+    return
+end
+
+
+
+
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Check Error" ,
+    Duration = 0
+})
+
+
+wait(0.8)
+
+
+if _G.scriptRunning then
+
+
+print("Status : 🔴 Error Script is Already running")
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Error: Script is Already running!",
+    Duration = 2
+})
+
+
+
+
+
+
+
+
+    return
+end
+
+_G.scriptRunning = true
+
+
+print("Status : ♻️")
+
+
+
+local fx = math.random(42, 95)
+local fn = "100"
+
+printidentity()
+
+if printidentity == 3 then
+	
+print("Status : 🔴")
+
+	print("STOP NOW")
+end
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Loading : " ..fx .. "%" ,
+    Duration = 0
+})
+
+
+
+
+
+
+
+wait(0.8)
+
+
+
+local loadingFinished = Instance.new("BindableEvent")
+local totalScripts = 3  
+local scriptsFinished = 0
+
+local function onScriptFinished()
+    scriptsFinished = scriptsFinished + 1
+    if scriptsFinished == totalScripts then
+
+wait(0.8)
+
+print("Status : 🟢")
+
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Loading : " ..fn .. "%" ,
+    Duration = 0
+})
+wait(0.8)
+
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "Loading Finish!" ,
+    Duration = 2
+})
+
+
+
+
+
+
+
+
+
 
 local Fuckingdick = game.PlaceId
-
+ 
 if Fuckingdick == 16721806812 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/TougueBattles/source/script/loaded"))()
-
+ 
 elseif Fuckingdick == 286090429 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/arsenal/script/source/loaded"))()
-
-elseif Fuckingdick == 16281300371 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/bladeball/source/script/loaded"))()
-
+  
 elseif Fuckingdick == 12768419991 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/game/JunkPunk%3ABuildandfly/mainscript/v2"))()
-
+ 
 elseif Fuckingdick == 6403373529 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapbattles/script/loaded"))()
-
-elseif Fuckingdick == 82830957664947 then
-
+ 
+elseif Fuckingdick == 16281300371 then
+ 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/Myairport%5BBETA%5D/Loaded"))()
-
+ 
 else
         game.Players.LocalPlayer:Kick("Please Join Support game ! script not support")
         wait(1)

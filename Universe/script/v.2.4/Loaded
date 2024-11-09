@@ -1,0 +1,105 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+local outerBackground = Instance.new("Frame")
+outerBackground.Size = UDim2.new(1, 0, 1, 0)
+outerBackground.Position = UDim2.new(0, 0, 0, 0) 
+outerBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 05) 
+outerBackground.BackgroundTransparency = 0.7 
+outerBackground.BorderSizePixel = 0 
+outerBackground.Parent = screenGui
+
+local backgroundFrame = Instance.new("Frame")
+backgroundFrame.Size = UDim2.new(0, 400, 0, 50)  
+backgroundFrame.Position = UDim2.new(0.5, -200, 0.5, -25)
+backgroundFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
+backgroundFrame.BackgroundTransparency = 0 
+backgroundFrame.BorderSizePixel = 0 
+backgroundFrame.Parent = outerBackground 
+
+local progressLabel = Instance.new("TextLabel")
+progressLabel.Size = UDim2.new(1, 0, 1, 0) 
+progressLabel.Position = UDim2.new(0, 0, 0, 0) 
+progressLabel.BackgroundTransparency = 1  
+progressLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  
+progressLabel.Font = Enum.Font.SourceSans
+progressLabel.TextSize = 24
+progressLabel.Text = "[       ] 0%"  
+progressLabel.Parent = backgroundFrame 
+
+local totalLength = 32 
+local delayTime = 0.000001 
+local currentLength = 0 
+
+local function updateProgress()
+    while currentLength <= totalLength do
+        local percentage = math.floor((currentLength / totalLength) * 100)
+        
+        local progress = string.rep("#", currentLength) .. string.rep(" ", totalLength - currentLength)
+        
+        progressLabel.Text = "[" .. progress .. "] " .. percentage .. "%" 
+        
+        if percentage >= 85 and percentage < 100 then
+            progressLabel.TextColor3 = Color3.fromRGB(255, 255, 0) 
+        elseif percentage == 100 then
+            progressLabel.TextColor3 = Color3.fromRGB(0, 255, 0) 
+        else
+            progressLabel.TextColor3 = Color3.fromRGB(255, 255, 255) 
+        end
+        
+        if percentage == 42 then
+            local placeId = game.PlaceId
+            if placeId ~= 16721806812 or 286090429 or 12768419991 or 6403373529 or 16281300371 then
+                progressLabel.Text = "Failed to download"
+                progressLabel.TextColor3 = Color3.fromRGB(255, 0, 0)  
+                print("WrongPlaceid") 
+                outerBackground:Destroy() 
+                screenGui:Destroy()   
+                return 
+            end
+        end
+        
+        wait(delayTime)
+        
+        currentLength = currentLength + 1
+    end
+
+    progressLabel.Text = "[" .. string.rep("#", totalLength) .. "] 100%"
+
+
+local Fuckingdick = game.PlaceId
+ 
+if Fuckingdick == 16721806812 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/TougueBattles/source/script/loaded"))()
+ 
+elseif Fuckingdick == 286090429 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/arsenal/script/source/loaded"))()
+  
+elseif Fuckingdick == 12768419991 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/game/JunkPunk%3ABuildandfly/mainscript/v2"))()
+ 
+elseif Fuckingdick == 6403373529 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapbattles/script/loaded"))()
+ 
+elseif Fuckingdick == 16281300371 then
+ 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/Myairport%5BBETA%5D/Loaded"))()
+ 
+else
+     game.StarterGui:SetCore("SendNotification", {
+    Title = "Eq Hub",
+    Text = "This Game Not Support!" ,
+    Button1 = "Ok",
+    Duration = math.huge
+})
+end
+
+
+    wait(1)
+    progressLabel:Destroy()
+    backgroundFrame:Destroy()  
+    outerBackground:Destroy()
+    screenGui:Destroy() 
+end
+
+updateProgress()

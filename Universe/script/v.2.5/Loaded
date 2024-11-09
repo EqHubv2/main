@@ -49,7 +49,7 @@ local function updateProgress()
         
         if percentage == 42 then
             local placeId = game.PlaceId
-            if placeId ~= 16721806812 or 286090429 or 12768419991 or 6403373529 or 16281300371 then
+            if if placeId ~= 16721806812 and placeId ~= 286090429 and placeId ~= 12768419991 and placeId ~= 6403373529 and placeId ~= 16281300371 then
                 progressLabel.Text = "Failed to download"
                 progressLabel.TextColor3 = Color3.fromRGB(255, 0, 0)  
                 print("WrongPlaceid") 

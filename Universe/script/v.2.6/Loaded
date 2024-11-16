@@ -83,8 +83,13 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapb
  
 elseif Fuckingdick == 16281300371 then
  
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/Myairport%5BBETA%5D/Loaded"))()
- 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/Myairport%5BBETA%5D/Loaded"))()
+
+elseif Fuckingdick == 142823291 then
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/mm2/Loaded"))()
+
+
 else
      game.StarterGui:SetCore("SendNotification", {
     Title = "Eq Hub",

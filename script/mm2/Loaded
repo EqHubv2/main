@@ -1,0 +1,432 @@
+local player = game.Players.LocalPlayer
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "MM2",
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Visuals", Icon = "eye" }),
+    notify = Window:AddTab({ Title = "Notify", Icon = "align-left" }),
+	player = Window:AddTab({ Title = "LocalPlayer", Icon = "users" })
+
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "Welcome, " .. player.DisplayName .. "!",
+        SubContent = "@" .. player.Name, 
+        Duration = 5 
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Welcome, " .. player.DisplayName .. "!",
+        Content = "Hi"
+    })
+
+
+
+    Tabs.Main:AddButton({
+        Title = "Esp Player",
+        Description = "I think it can't turnoff!",
+        Callback = function()
+          _G.Esp = true
+
+local Players = game:GetService("Players")
+
+local function createESP(player, color)
+    if not _G.Esp then return end 
+
+    local esp = Instance.new("BillboardGui")
+    esp.Name = "PlayerESP"
+    esp.Adornee = player.Character:FindFirstChild("HumanoidRootPart") 
+    esp.Size = UDim2.new(0, 100, 0, 25)
+    esp.AlwaysOnTop = true
+
+    local textLabel = Instance.new("TextLabel", esp)
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Text = player.Name
+    textLabel.TextColor3 = color
+    textLabel.TextScaled = true
+
+    esp.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+end
+
+local function removeESP(player)
+    if not _G.Esp then return end 
+
+    if player.Character then
+        local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            local esp = humanoidRootPart:FindFirstChild("PlayerESP")
+            if esp then
+                esp:Destroy()
+            end
+        end
+    end
+end
+
+local function updateESP(player)
+    if not _G.Esp then
+        removeESP(player) 
+        return
+    end
+
+    local tools = {Knife = false, Gun = false}
+
+    local backpack = player:FindFirstChild("Backpack")
+    if backpack then
+        for _, item in ipairs(backpack:GetChildren()) do
+            if item:IsA("Tool") then
+                if item.Name == "Knife" then
+                    tools.Knife = true
+                elseif item.Name == "Gun" then
+                    tools.Gun = true
+                end
+            end
+        end
+    end
+
+    local character = player.Character
+    if character then
+        for _, item in ipairs(character:GetChildren()) do
+            if item:IsA("Tool") then
+                if item.Name == "Knife" then
+                    tools.Knife = true
+                elseif item.Name == "Gun" then
+                    tools.Gun = true
+                end
+            end
+        end
+    end
+
+    removeESP(player) 
+    if tools.Knife then
+        createESP(player, Color3.new(1, 0, 0)) 
+    elseif tools.Gun then
+        createESP(player, Color3.new(0, 0, 1))
+    else
+        createESP(player, Color3.new(0, 1, 0)) 
+    end
+end
+
+local function handleToolDisappearance(player)
+    local backpack = player:FindFirstChild("Backpack")
+    if not backpack then return end
+
+    local knife, gun = nil, nil
+
+    backpack.ChildAdded:Connect(function(child)
+        if child.Name == "Knife" or child.Name == "Gun" then
+            if child.Name == "Knife" then
+                knife = child
+            elseif child.Name == "Gun" then
+                gun = child
+            end
+            if knife then knife:Destroy() end
+            if gun then gun:Destroy() end
+        end
+    end)
+
+    backpack.ChildRemoved:Connect(function(child)
+        if child.Name == "Knife" then
+            knife = nil
+            local newKnife = Instance.new("Tool")
+            newKnife.Name = "Knife"
+            newKnife.Parent = backpack
+        elseif child.Name == "Gun" then
+            gun = nil
+            local newGun = Instance.new("Tool")
+            newGun.Name = "Gun"
+            newGun.Parent = backpack
+        end
+    end)
+end
+
+local function monitorPlayer(player)
+    local function onChildAddedOrRemoved()
+        updateESP(player)
+    end
+
+    player.ChildAdded:Connect(function(child)
+        if child.Name == "Backpack" then
+            child.ChildAdded:Connect(onChildAddedOrRemoved)
+            child.ChildRemoved:Connect(onChildAddedOrRemoved)
+            handleToolDisappearance(player) 
+        end
+    end)
+
+    player.CharacterAdded:Connect(function(character)
+        character.ChildAdded:Connect(onChildAddedOrRemoved)
+        character.ChildRemoved:Connect(onChildAddedOrRemoved)
+        character:WaitForChild("HumanoidRootPart", 10)
+        updateESP(player)
+    end)
+
+    updateESP(player)
+end
+
+local function monitorAllPlayers()
+    for _, player in ipairs(Players:GetPlayers()) do
+        monitorPlayer(player)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    monitorPlayer(player)
+end)
+
+monitorAllPlayers()
+
+local function espLoop()
+    while true do
+        if _G.Esp then
+            for _, player in ipairs(Players:GetPlayers()) do
+                updateESP(player)
+            end
+        else
+            for _, player in ipairs(Players:GetPlayers()) do
+                removeESP(player) 
+            end
+        end
+        wait(1)
+    end
+end
+
+task.spawn(espLoop)
+
+        end
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------- notify tab --------------------
+
+    local Toggle = Tabs.notify:AddToggle("MyToggle", {Title = "Notify GunDrop (NotWorking!)", Default = false })
+
+    Toggle:OnChanged(function()
+	local s = Options.MyToggle.Value
+
+	if s == true then
+
+
+
+
+else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+    
+
+
+------------------------ player ---------------------------------------------------------------------
+
+
+    local Slider = Tabs.player:AddSlider("Slider", {
+        Title = "WalkSpeed",
+        Description = "SpeedPlayer",
+        Default = 2,
+        Min = 16,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+    end)
+
+    Slider:SetValue(16)
+
+
+
+
+    local Slider = Tabs.player:AddSlider("Slider", {
+        Title = "Jumppower",
+        Description = "Jumppower",
+        Default = 2,
+        Min = 50,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+    end)
+
+    Slider:SetValue(50)
+
+
+
+
+
+
+  local Toggle = Tabs.player:AddToggle("MyToggle", {Title = "Noclip", Default = false })
+
+    Toggle:OnChanged(function()
+local f = Options.MyToggle.Value
+if f == true then
+
+
+   _G.noclip = true
+
+local Clip = true
+local NoclipConnection
+
+local function noclip()
+    if Clip == false then return end
+    
+    Clip = false
+
+    local function Nocl()
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            for _, v in pairs(character:GetDescendants()) do
+                if v:IsA('BasePart') and v.CanCollide then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end
+
+    NoclipConnection = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+local function clip()
+    if NoclipConnection then
+        NoclipConnection:Disconnect() 
+        NoclipConnection = nil
+    end
+
+    Clip = true
+
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        for _, v in pairs(character:GetDescendants()) do
+            if v:IsA('BasePart') and not v.Name == "floatName" then
+                v.CanCollide = true
+            end
+        end
+    end
+end
+
+game:GetService('RunService').Heartbeat:Connect(function()
+    if _G.noclip and Clip then
+        noclip() 
+    elseif not _G.noclip and not Clip then
+        clip() 
+    end
+end)
+
+else
+	    _G.noclip = false
+
+end
+
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+----------------------------------- END ------------------------------------------------------
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+wait(6)
+
+
+
+
+
+
+
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "Load Config Finish!",
+    Duration = 8
+})
+
+end

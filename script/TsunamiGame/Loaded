@@ -1,0 +1,298 @@
+
+
+--Safe Mode : -53.53969192504883, 123.02421569824219, 936.488525390625
+
+--Void (Banana) : 170, -2093.5, -19.4999981, 0, 0, 1, 0, 1, -0, -1, 0, 0
+
+--Void2 (Banana) : -188, -2093.5, -19.4999847, 0, 0, -1, 0, 1, 0, 1, 0, 0
+
+
+
+
+local player = game.Players.LocalPlayer
+
+
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Tsunami Game",
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Farm", Icon = "chevrons-up" }),
+            localplayer = Window:AddTab({ Title = "LocalPlayer", Icon = "users" })
+
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "Welcome, " .. player.DisplayName .. "!",
+        SubContent = "@" .. player.Name, 
+        Duration = 5 
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Hi, " .. player.DisplayName .. "!",
+        Content = "HELLO GUYS"
+    })
+
+
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Select AutoFarm",
+        Values = {"Empty", "AutoMoney", "AutoChromeBanana"},
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue(1)
+
+    Dropdown:OnChanged(function(Value)
+    end)
+
+
+    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Farm", Default = false })
+
+    Toggle:OnChanged(function()
+    local e = Options.MyToggle.Value
+if e == true then
+    if Dropdown.Value == "AutoMoney" then
+
+_G.open = true
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local function teleportTo(targetCFrame, tweenDuration)
+    if humanoidRootPart.CFrame == targetCFrame then
+        return
+    end
+
+    local tweenInfo = TweenInfo.new(
+        tweenDuration, 
+        Enum.EasingStyle.Linear, 
+        Enum.EasingDirection.InOut
+    )
+
+    local goal = {
+        CFrame = targetCFrame
+    }
+
+    local tween = TweenService:Create(humanoidRootPart, tweenInfo, goal)
+
+    tween:Play()
+
+    tween.Completed:Connect(function()
+    end)
+end
+
+while true do
+    if _G.open then
+          Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "CoolDown for 25 s",
+        SubContent = "Because it will bug", 
+        Duration = 8
+    })
+        wait(25)
+        teleportTo(CFrame.new(-53.53969192504883, 79, 936.488525390625), 1)
+        wait(1)
+
+        teleportTo(CFrame.new(-14.6164818, 79, -989.007446, 1, 0, 0, 0, 1, 0, 0, 0, 1), 5)
+        wait(5)
+
+        teleportTo(CFrame.new(-9, 50.5, -1053, 1, 0, 0, 0, 1, 0, 0, 0, 1), 5)
+        wait(5)
+    else
+        break
+    end
+    wait(1)
+end
+
+
+
+
+
+
+    end
+
+------------------------ Auto banana
+
+if Dropdown.Value == "AutoChromeBanana" then
+
+
+_G.what = true
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local function teleportTo(targetCFrame, tweenDuration)
+    if (humanoidRootPart.Position - targetCFrame.Position).Magnitude < 0.1 then
+        return 
+    end
+
+    local tweenInfo = TweenInfo.new(
+        tweenDuration, 
+        Enum.EasingStyle.Linear, 
+        Enum.EasingDirection.InOut
+    )
+
+    local goal = {
+        CFrame = targetCFrame
+    }
+    local tween = TweenService:Create(humanoidRootPart, tweenInfo, goal)
+    tween:Play()
+
+    tween.Completed:Connect(function()
+    end)
+end
+while _G.what do
+    if _G.what then
+        teleportTo(CFrame.new(170, -2093.5, -19.4999981, 0, 0, 1, 0, 1, -0, -1, 0, 0), 1)
+        wait(1)
+        teleportTo(CFrame.new(-14.6164818, 79, -989.007446, 1, 0, 0, 0, 1, 0, 0, 0, 1), 1)
+        wait(1)
+    end
+end
+
+
+
+
+
+
+end
+
+
+
+
+
+    else
+
+_G.open = false
+_G.what = false
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local targetCFrame = CFrame.new(-29, 119.01619, 934.000061, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+
+if humanoidRootPart.CFrame == targetCFrame then
+    return
+end
+
+local tweenInfo = TweenInfo.new(
+    1.7, 
+    Enum.EasingStyle.Linear, 
+    Enum.EasingDirection.InOut 
+)
+
+local goal = {
+    CFrame = targetCFrame
+}
+local tween = TweenService:Create(humanoidRootPart, tweenInfo, goal)
+
+tween:Play()
+
+tween.Completed:Connect(function()
+end)
+
+
+
+
+
+
+
+
+
+
+    end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+
+
+
+ local Slider = Tabs.localplayer:AddSlider("Slider", {
+        Title = "SpeedPower",
+        Description = "Speed Of player",
+        Default = 2,
+        Min = 16,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+    end)
+
+    Slider:SetValue(3)
+
+ local Slider = Tabs.localplayer:AddSlider("Slider", {
+        Title = "Jumppower",
+        Description = "Jump Of player",
+        Default = 2,
+        Min = 50,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+    end)
+
+    Slider:SetValue(3)
+
+
+
+
+
+
+
+
+
+
+
+
+    
+ 
+
+
+
+
+
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+
+
+end

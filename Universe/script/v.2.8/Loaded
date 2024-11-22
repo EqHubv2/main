@@ -89,6 +89,10 @@ elseif Fuckingdick == 142823291 then
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/mm2/Loaded"))()
 
+elseif Fuckingdick == 7993293100 then
+
+
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/TsunamiGame/Loaded"))()
 
 else
      game.StarterGui:SetCore("SendNotification", {

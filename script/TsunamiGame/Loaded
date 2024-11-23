@@ -1,6 +1,5 @@
 
-
---Safe Mode : -53.53969192504883, 123.02421569824219, 936.488525390625
+--Safe Mode : DELETE
 
 --Void (Banana) : 170, -2093.5, -19.4999981, 0, 0, 1, 0, 1, -0, -1, 0, 0
 
@@ -106,11 +105,11 @@ while true do
     if _G.open then
           Fluent:Notify({
         Title = "Eq Hub",
-        Content = "CoolDown for 25 s",
+        Content = "CoolDown for 22.4 s",
         SubContent = "Because it will bug", 
         Duration = 8
     })
-        wait(25)
+        wait(22.4)
         teleportTo(CFrame.new(-53.53969192504883, 79, 936.488525390625), 1)
         wait(1)
 
@@ -118,8 +117,11 @@ while true do
         wait(5)
 
         teleportTo(CFrame.new(-9, 50.5, -1053, 1, 0, 0, 0, 1, 0, 0, 0, 1), 5)
-        wait(5)
+		wait(5)
+		teleportTo(CFrame.new(-29, 119.01619, 934.000061, 1, 0, 0, 0, 1, 0, 0, 0, 1), 1)
+        wait(1)
     else
+	
         break
     end
     wait(1)

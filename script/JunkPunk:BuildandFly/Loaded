@@ -3,81 +3,6 @@ warn("START NEW SCRIPT")
 local player = game.Players.LocalPlayer
 
 
-while true do
-    if _G.farm then
-        wait(0.4) 
-local function setHoldDurationToZero(parent)
-    for _, child in ipairs(parent:GetChildren()) do
-        if child:IsA("ProximityPrompt") then
-            child.HoldDuration = 0
-        end
-        setHoldDurationToZero(child)
-    end
-end
-
-setHoldDurationToZero(workspace)
-        local RandomFarm = {
-            CFrame.new(-427.770447, 235.324951, 52.332737),
-            CFrame.new(-427.069458, 235.324951, 56.3164062),
-            CFrame.new(-426.157867, 235.324951, 49.1037331)
-        }
-
-        local randomIndex = math.random(1, #RandomFarm)
-        local randomCFrame = RandomFarm[randomIndex]
-
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-
-        if humanoidRootPart then
-            humanoidRootPart.CFrame = randomCFrame
-        else
-            warn("HumanoidRootPart not found!")
-            break 
-        end
-
-        local Vi = game:GetService("VirtualInputManager")
-        Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-
-        local gui = player.PlayerGui:FindFirstChild("DeliveryGui")
-        if gui and gui:FindFirstChild("DeliveryFrame") and gui.DeliveryFrame:FindFirstChild("ImageLabel") then
-            local image = gui.DeliveryFrame.ImageLabel.Image
-
-            if image == "rbxassetid://16089537380" then
-                humanoidRootPart.CFrame = CFrame.new(-144.670776, 433.232605, -553.213379)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16089225982" then
-                humanoidRootPart.CFrame = CFrame.new(-530.960876, 329.376617, -462.79837)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16169094656" then
-                humanoidRootPart.CFrame = CFrame.new(-1685.83386, 472.517273, -382.503174)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16167474378" then
-                humanoidRootPart.CFrame = CFrame.new(-1788.39246, 482.631775, -772.526245)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039339827" then
-                humanoidRootPart.CFrame = CFrame.new(-147.755829, 234.745132, 289.270508)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039471883" then
-                humanoidRootPart.CFrame = CFrame.new(-1605.85461, 183.34404, 549.348938)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16067423260" then
-                humanoidRootPart.CFrame = CFrame.new(-6.8508296, 192.913818, 376.81543)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039463272" then
-                humanoidRootPart.CFrame = CFrame.new(-1427.42737, 160.505112, 895.764526)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039315892" then
-                humanoidRootPart.CFrame = CFrame.new(-734.911743, 184.523834, 493.29129)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            else
-            end
-        else
-        end
-    else
-        break
-    end
-end
 
 
 
@@ -311,32 +236,18 @@ end
         Title = "Inf Jumps",
         Description = "JUMPS",
         Callback = function()
-            Window:Dialog({
-                Title = "Sure?",
-                Content = "This is can't Turn off",
-                Buttons = {
-                    {
-                        Title = "Confirm",
-                        Callback = function()
+    
+            
 		local InfiniteJumpEnabled = true
 		game:GetService("UserInputService").JumpRequest:connect(function()
 			if InfiniteJumpEnabled then
 				game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 			end
 		end)                        
-        end
-                    },
-                    {
-                        Title = "Cancel",
-                        Callback = function()
-                            print("Cancelled the dialog.")
-                        end
-                    }
-                }
-            })
-        end
+        
+  
+      end
     })
-
 
     Tabs.Bring:AddParagraph({
         Title = "Bring📦",
@@ -348,12 +259,12 @@ end
 
  local Dropdown = Tabs.Bring:AddDropdown("Dropdown", {
         Title = "Bring",
-        Values = {"Boxes", "Empty Slot (not bring anythings)"},
+        Values = {"Boxes", "Empty Slot"},
         Multi = false,
         Default = 1,
     })
 
-    Dropdown:SetValue("Empty Slot (not bring anythings)")
+    Dropdown:SetValue("Empty Slot")
 
     Dropdown:OnChanged(function(Value)
 
@@ -379,131 +290,91 @@ end
 
 
 
-  local Toggle = Tabs.farm:AddToggle("MyToggle", {Title = "Auto Farm Coins", Default = false })
+ local Toggle = Tabs.farm:AddToggle("MyToggle", {Title = "Auto Farm Coins", Default = false})
 
-    Toggle:OnChanged(function()
+Toggle:OnChanged(function()
+    local js = Options.MyToggle.Value
 
-local js = Options.MyToggle.Value
+    if js == true then
+        
+    _G.farm = true
+    spawn(function()
+        while _G.farm do
+		wait(0.2)
 
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            local humanoidRootPart = character:WaitForChild("HumanoidRootPart") 
 
-if js == true then 
-
-
-
-
-
-
-
-
-
-_G.farm = true
-
-
-
-
-
-
-while true do
-    if _G.farm then
-        wait(0.4) 
-local function setHoldDurationToZero(parent)
-    for _, child in ipairs(parent:GetChildren()) do
-        if child:IsA("ProximityPrompt") then
-            child.HoldDuration = 0
-        end
-        setHoldDurationToZero(child)
-    end
-end
-
-setHoldDurationToZero(workspace)
-        local RandomFarm = {
-            CFrame.new(-427.770447, 235.324951, 52.332737),
-            CFrame.new(-427.069458, 235.324951, 56.3164062),
-            CFrame.new(-426.157867, 235.324951, 49.1037331)
-        }
-
-        local randomIndex = math.random(1, #RandomFarm)
-        local randomCFrame = RandomFarm[randomIndex]
-
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-
-        if humanoidRootPart then
-            humanoidRootPart.CFrame = randomCFrame
-        else
-            warn("HumanoidRootPart not found!")
-            break 
-        end
-
-        local Vi = game:GetService("VirtualInputManager")
-        Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-
-        local gui = player.PlayerGui:FindFirstChild("DeliveryGui")
-        if gui and gui:FindFirstChild("DeliveryFrame") and gui.DeliveryFrame:FindFirstChild("ImageLabel") then
-            local image = gui.DeliveryFrame.ImageLabel.Image
-
-            if image == "rbxassetid://16089537380" then
-                humanoidRootPart.CFrame = CFrame.new(-144.670776, 433.232605, -553.213379)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16089225982" then
-                humanoidRootPart.CFrame = CFrame.new(-530.960876, 329.376617, -462.79837)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16169094656" then
-                humanoidRootPart.CFrame = CFrame.new(-1685.83386, 472.517273, -382.503174)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16167474378" then
-                humanoidRootPart.CFrame = CFrame.new(-1788.39246, 482.631775, -772.526245)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039339827" then
-                humanoidRootPart.CFrame = CFrame.new(-147.755829, 234.745132, 289.270508)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039471883" then
-                humanoidRootPart.CFrame = CFrame.new(-1605.85461, 183.34404, 549.348938)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16067423260" then
-                humanoidRootPart.CFrame = CFrame.new(-6.8508296, 192.913818, 376.81543)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039463272" then
-                humanoidRootPart.CFrame = CFrame.new(-1427.42737, 160.505112, 895.764526)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            elseif image == "rbxassetid://16039315892" then
-                humanoidRootPart.CFrame = CFrame.new(-734.911743, 184.523834, 493.29129)
-                Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            else
-                warn("Status : Image Not Load!")
+            if not humanoidRootPart then
+                warn("HumanoidRootPart not found!")
+                break
             end
-        else
-            warn("DeliveryGui or necessary components not found!")
+
+            local function setHoldDurationToZero(parent)
+                for _, child in ipairs(parent:GetChildren()) do
+                    if child:IsA("ProximityPrompt") then
+                        child.HoldDuration = 0
+                    end
+                    setHoldDurationToZero(child)
+                end
+            end
+
+            setHoldDurationToZero(workspace)
+
+            local RandomFarm = {
+				CFrame.new(-188.021408, 350.525421, -666.282104),
+                CFrame.new(-188.052505, 350.525421, -662.282837),
+                CFrame.new(-427.770447, 235.324951, 52.332737),
+                CFrame.new(-427.069458, 235.324951, 56.3164062),
+                CFrame.new(-426.157867, 235.324951, 49.1037331),
+                CFrame.new(-188.038757, 350.525421, -670.733276),
+                CFrame.new(-188.021408, 350.525421, -666.282104),
+                CFrame.new(-188.052505, 350.525421, -662.282837)
+            }
+
+            local randomIndex = math.random(1, #RandomFarm)
+            local randomCFrame = RandomFarm[randomIndex]
+
+            humanoidRootPart.CFrame = randomCFrame
+
+            local Vi = game:GetService("VirtualInputManager")
+            Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+
+            local gui = player.PlayerGui:WaitForChild("DeliveryGui") 
+            local deliveryFrame = gui:WaitForChild("DeliveryFrame")  
+            local imageLabel = deliveryFrame:WaitForChild("ImageLabel") 
+
+            if gui and deliveryFrame and imageLabel then
+                local image = imageLabel.Image
+
+                local locations = {
+                    ["rbxassetid://16089537380"] = CFrame.new(-144.670776, 433.232605, -553.213379),
+                    ["rbxassetid://16089225982"] = CFrame.new(-530.960876, 329.376617, -462.79837),
+                    ["rbxassetid://16169094656"] = CFrame.new(-1685.83386, 472.517273, -382.503174),
+                    ["rbxassetid://16167474378"] = CFrame.new(-1788.39246, 482.631775, -772.526245),
+                    ["rbxassetid://16039339827"] = CFrame.new(-147.755829, 234.745132, 289.270508),
+                    ["rbxassetid://16039471883"] = CFrame.new(-1605.85461, 183.34404, 549.348938),
+                    ["rbxassetid://16067423260"] = CFrame.new(-6.8508296, 192.913818, 376.81543),
+                    ["rbxassetid://16039463272"] = CFrame.new(-1427.50745, 160.505447, 892.705383, -0.881201386, 2.82875323e-09, -0.472741127, -3.50262965e-08, 1, 7.12736252e-08, 0.472741127, 7.93647885e-08, -0.881201386),
+                    ["rbxassetid://16039315892"] = CFrame.new(-734.911743, 184.523834, 493.29129)
+                }
+
+                if locations[image] then
+                    humanoidRootPart.CFrame = locations[image]
+                    Vi:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                end
+            end
         end
-    else
-        break
-    end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-else 
-
-_G.farm = false
-
-end
-
     end)
 
-    Options.MyToggle:SetValue(false)
+    else
+        _G.farm = false
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
 
 
 

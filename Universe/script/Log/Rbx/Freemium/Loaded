@@ -94,6 +94,10 @@ elseif Fuckingdick == 7993293100 then
 
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/TsunamiGame/Loaded"))()
 
+elseif Fuckingdick == 18668065416 then
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BlueLock%3ARivials/Loaded"))()
+
 else
      game.StarterGui:SetCore("SendNotification", {
     Title = "Eq Hub",

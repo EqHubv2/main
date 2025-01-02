@@ -1,0 +1,170 @@
+local team = game.Teams
+local gn = "Bluelock : Rivals"
+local replicated_storage = game:GetService("ReplicatedStorage")
+local players = game:GetService("Players")
+local teams = game:GetService("Teams")
+local user_input_service = game:GetService("UserInputService")
+local run_service = game:GetService("RunService")
+local workspace = game:GetService("Workspace")
+local localPlayer = players.LocalPlayer
+local vi = game:GetService("VirtualInputManager")
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local function teleportToBall()
+    local ball = workspace:FindFirstChild("Football") or workspace:FindFirstChild("Ball")
+    if ball and ball:IsA("BasePart") then
+        localPlayer.Character.HumanoidRootPart.CFrame = ball.CFrame + Vector3.new(0, 3, 0)
+    end
+end
+
+local Window = Fluent:CreateWindow({
+    Title = gn,
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.RightControl 
+})
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Home", Icon = "scan" }),
+    Settings = Window:AddTab({ Title = "UI Settings", Icon = "settings" })
+}
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "Welcome, " .. localPlayer.DisplayName,
+    SubContent = "@" .. localPlayer.Name,
+    Duration = 5
+})
+
+
+_G.TeleportBall = false
+_G.Aimbot = false
+_G.Aimbotball = false
+
+local Toggle = Tabs.Main:AddToggle("MyToggle", {
+    Title = "Auto Play V1 [BETA]",
+    Default = false
+})
+
+Toggle:OnChanged(function()
+    _G.TeleportBall = Toggle.Value
+	_G.auto1 = Toggle.Value
+    if _G.TeleportBall then
+        print("Teleportation to ball is ON")
+    else
+        print("Teleportation to ball is OFF")
+    end
+end)
+
+run_service.RenderStepped:Connect(function()
+    if _G.TeleportBall then
+        teleportToBall()
+    end
+end)
+
+local function getClosestPlayerToCursor()
+    local closestPlayer = nil
+    local closestDistance = math.huge
+    for _, player in pairs(players:GetPlayers()) do
+        if player ~= localPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local rootPart = player.Character.HumanoidRootPart
+            local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(rootPart.Position)
+            if onScreen then
+                local distance = (Vector2.new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2) - Vector2.new(screenPos.X, screenPos.Y)).Magnitude
+                if distance < closestDistance and distance < 400 then
+                    closestDistance = distance
+                    closestPlayer = player
+                end
+            end
+        end
+    end
+    return closestPlayer
+end
+
+run_service.RenderStepped:Connect(function()
+    if _G.Aimbot then
+        local targetPlayer = getClosestPlayerToCursor()
+    end
+
+    if _G.Aimbotball then
+        local ball = workspace:FindFirstChild("Football") or workspace:FindFirstChild("Ball")
+    end
+end)
+
+run_service.RenderStepped:Connect(function()
+		if _G.auto1 then
+    local player = players.LocalPlayer
+    if player.Team then
+        if player.Team == game.Teams.Away then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(298.29892, 11.1665325, -35.0631256, 0.198180765, -6.31046362e-08, -0.980165482, -1.60673128e-10, 1, -6.44140954e-08, 0.980165482, 1.29231212e-08, 0.198180765)
+						                    vi:SendKeyEvent(true, Enum.KeyCode.MouseLeftButton, false, game)
+        elseif player.Team == game.Teams.Home then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-226.709152, 11.1665325, -41.7042542, 0.0969198793, -2.74733321e-08, 0.995292187, -5.05701592e-10, 1, 2.76525274e-08, -0.995292187, -3.18340043e-09, 0.0969198793)
+									                    vi:SendKeyEvent(true, Enum.KeyCode.MouseLeftButton, false, game)
+        else
+            Fluent:Notify({
+                Title = "Eq Hub",
+                Content = "Please Join Team!",
+                Duration = 5
+            })
+			
+        end
+    else
+        Fluent:Notify({
+            Title = "Eq Hub",
+            Content = "Please Join Team!",
+            Duration = 5
+        })
+    end
+	end
+end)
+
+
+-- Infinity Stamina Button
+Tabs.Main:AddButton({
+    Title = "Infinity Stamina",
+    Callback = function()
+        local args = { [1] = 0/0 }
+        replicated_storage:WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("StaminaService"):WaitForChild("RE"):WaitForChild("DecreaseStamina"):FireServer(unpack(args))
+    end
+})
+local BallToggle = Tabs.Main:AddToggle("MyToggle", {
+    Title = "Bring Ball (When dropped)",
+    Default = false
+})
+
+BallToggle:OnChanged(function()
+    getgenv().TeleportBall = BallToggle.Value
+end)
+
+run_service.RenderStepped:Connect(function()
+    if getgenv().TeleportBall then
+        teleportToBall()
+    end
+end)
+-- Save and interface settings
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()

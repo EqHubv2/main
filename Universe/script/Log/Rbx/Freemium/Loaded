@@ -101,10 +101,28 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/hea
 else
      game.StarterGui:SetCore("SendNotification", {
     Title = "Eq Hub",
-    Text = "This Game Not Support!" ,
-    Button1 = "Ok",
+    Text = "This Game Not Support! we will start Universe script Please click OK" ,
+    Button1 = "OK",
     Duration = math.huge
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 

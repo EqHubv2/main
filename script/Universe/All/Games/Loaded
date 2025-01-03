@@ -1,0 +1,679 @@
+--[=/ Please do not copy \=]--
+local Fluent = loadstring(game:HttpGet("https://xtimeteam.netlify.app/Lib/Fluent/Addons/main.lua"))()                      --Modify version
+local SaveManager = loadstring(game:HttpGet("https://xtimeteam.netlify.app/Lib/Fluent/Addons/SaveManager.lua"))()          --Modify version
+local InterfaceManager = loadstring(game:HttpGet("https://xtimeteam.netlify.app/Lib/Fluent/Addons/InterfaceManager.lua"))()--Modify version
+
+
+
+
+
+
+Plr = {}
+for i,v in pairs(game:GetService("Players"):GetChildren()) do
+    table.insert(Plr,v.Name) 
+end
+
+print("All player Name Has been Loaded!")
+
+
+
+local Window = Fluent:CreateWindow({
+    Title = "Universe",
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 350),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Visual", Icon = "eye" }),
+	    teleport = Window:AddTab({ Title = "Teleport", Icon = "arrow-right" }),
+			    player = Window:AddTab({ Title = "LocalPlayer", Icon = "users" }),
+							    target = Window:AddTab({ Title = "Target", Icon = "x" }),
+										fe = Window:AddTab({ Title = "FE", Icon = "gem" }),
+							                    server = Window:AddTab({ Title = "Server", Icon = "server" }),
+
+    Settings = Window:AddTab({ Title = "UI Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+local player = game.Players.LocalPlayer
+    Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "Welcome, " .. player.DisplayName,
+        SubContent = "@" .. player.Name, 
+        Duration = 5 
+    })
+
+
+
+       
+
+_G.esp = true 
+_G.checkTeam = false 
+_G.highlightColor = Color3.new(1, 1, 0) 
+
+local function addHighlight(player, color)
+    if player.Character and _G.esp then
+        local existingHighlight = player.Character:FindFirstChildOfClass("Highlight")
+        if not existingHighlight then
+            local highlight = Instance.new("Highlight")
+            highlight.Parent = player.Character
+            highlight.Adornee = player.Character
+            highlight.FillColor = color
+        else
+            existingHighlight.FillColor = color
+        end
+    end
+end
+
+local function removeHighlight(player)
+    if player.Character then
+        local existingHighlight = player.Character:FindFirstChildOfClass("Highlight")
+        if existingHighlight then
+            existingHighlight:Destroy()
+        end
+    end
+end
+
+local function getHighlightColor(player)
+    if _G.checkTeam and game:GetService("Players").LocalPlayer.Team == player.Team then
+        return Color3.new(0, 1, 0) 
+    elseif _G.checkTeam then
+        return Color3.new(1, 0, 0) 
+    else
+        return _G.highlightColor 
+    end
+end
+
+local function onPlayerAdded(player)
+    player.CharacterAdded:Connect(function()
+        if _G.esp then
+            addHighlight(player, getHighlightColor(player))
+        else
+            removeHighlight(player)
+        end
+    end)
+end
+
+local function updateHighlights()
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        if _G.esp then
+            addHighlight(player, getHighlightColor(player))
+        else
+            removeHighlight(player)
+        end
+    end
+end
+
+task.spawn(function()
+    while true do
+        task.wait(1)
+        updateHighlights()
+    end
+end)
+game:GetService("Players").PlayerAdded:Connect(onPlayerAdded)
+
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+    onPlayerAdded(player)
+end
+
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "ESP", Default = false})
+local CheckTeamToggle = Tabs.Main:AddToggle("CheckTeam", {Title = "Check Team", Default = false})
+local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
+    Title = "ESP Color",
+    Default = Color3.fromRGB(96, 205, 255)
+})
+
+Toggle:OnChanged(function()
+    _G.esp = Options.MyToggle.Value 
+    updateHighlights()
+end)
+
+CheckTeamToggle:OnChanged(function()
+    _G.checkTeam = Options.CheckTeam.Value
+    updateHighlights() 
+end)
+
+Colorpicker:OnChanged(function()
+    if not _G.checkTeam then
+        _G.highlightColor = Colorpicker.Value 
+        updateHighlights() 
+    end
+end)
+
+-- Initialize GUI values
+Options.MyToggle:SetValue(false)
+Options.CheckTeam:SetValue(false)
+Colorpicker:SetValueRGB(Color3.fromRGB(96, 205, 255))
+
+
+
+   
+--= teleport tab =--
+
+
+
+local Dropdown = Tabs.teleport:AddDropdown("Dropdown", {
+    Title = "Select Player",
+    Values = Plr,
+    Multi = false,
+    Default = 1,
+})
+
+Dropdown:SetValue(Plr[1])
+
+Dropdown:OnChanged(function(Value)
+    print("Player selected:", Value)
+end)
+
+local ToggleUpdate = Tabs.teleport:AddToggle("Auto Update Player", {
+    Title = "Auto Update Player",
+    Default = false
+})
+
+local lastUpdated = tick()
+local autoUpdateEnabled = false
+
+-- Single Heartbeat connection
+game:GetService("RunService").Heartbeat:Connect(function()
+    if autoUpdateEnabled then
+        local currentTime = tick()
+        if currentTime - lastUpdated >= 1 then  
+            lastUpdated = currentTime
+            local playerName = Dropdown.Value  
+            Dropdown.Values(playerName)  
+        end
+    end
+end)
+
+ToggleUpdate:OnChanged(function(Value)
+    autoUpdateEnabled = Value -- Enable or disable the auto-update logic
+    lastUpdated = tick() -- Reset the last updated time
+end)
+
+
+
+local ToggleKill = Tabs.teleport:AddToggle("Auto Kill", { 
+    Title = "Auto Teleport",
+    Default = false
+})
+
+ToggleKill:OnChanged(function(Value)
+    local killEnabled = Value
+    if killEnabled then
+        _G.TPPlayer = true
+        while _G.TPPlayer do
+            local targetPlayer = game.Players[Dropdown.Value]  
+            if targetPlayer and targetPlayer.Character then
+                local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            end
+            wait(0.1)  
+        end
+    else
+        _G.TPPlayer = false
+    end
+end)
+
+
+    Tabs.teleport:AddButton({
+        Title = "Teleport",
+        Callback = function()
+                     local targetPlayer = game.Players[Dropdown.Value]  
+            if targetPlayer and targetPlayer.Character then
+                local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            end
+        end
+    })
+
+
+
+ 
+
+
+
+
+--= End teleport tab =--
+
+
+
+
+
+
+--= player tab =--
+
+-- Speed Slider and Toggle
+local speedSlider = Tabs.player:AddSlider("SpeedSlider", {
+    Title = "Select Speed",
+    Default = 16,
+    Min = 16,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(Value)
+        print("Speed value set to:", Value)
+    end
+})
+
+local speedToggle = Tabs.player:AddToggle("SpeedToggle", { Title = "Auto Speed", Default = false })
+
+_G.autoSpeedEnabled = false
+local selectedSpeed = speedSlider.Value
+
+speedToggle:OnChanged(function(Value)
+    _G.autoSpeedEnabled = Value
+    if not Value then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16 -- Reset speed
+    end
+end)
+
+speedSlider:OnChanged(function(Value)
+    selectedSpeed = Value
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if _G.autoSpeedEnabled then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = selectedSpeed
+    end
+end)
+
+
+	
+	local jumpPowerSlider = Tabs.player:AddSlider("JumpPowerSlider", {
+    Title = "Select JumpPower",
+    Default = 50,
+    Min = 50,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(Value)
+        print("JumpPower value set to:", Value)
+    end
+})
+
+
+local jumpPowerToggle = Tabs.player:AddToggle("JumpPowerToggle", { Title = "Auto JumpPower", Default = false })
+
+_G.autoJumpPowerEnabled = false
+local selectedJumpPower = jumpPowerSlider.Value
+
+jumpPowerToggle:OnChanged(function(Value)
+    _G.autoJumpPowerEnabled = Value
+    if not Value then
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50 -- Reset jump power
+    end
+end)
+
+jumpPowerSlider:OnChanged(function(Value)
+    selectedJumpPower = Value
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if _G.autoJumpPowerEnabled then
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = selectedJumpPower
+    end
+end)
+
+
+    Tabs.player:AddParagraph({
+        Title = "Misc",
+    })
+	
+
+-- Toggle for Noclip
+local ToggleNoclip = Tabs.player:AddToggle("Noclip", { Title = "Noclip", Default = false })
+
+_G.noclip = false
+
+ToggleNoclip:OnChanged(function(Value)
+    _G.noclip = Value
+end)
+
+game:GetService("RunService").Stepped:Connect(function()
+    if _G.noclip then
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false -- Disable collision for noclip
+                end
+            end
+        end
+    end
+end)
+
+-- Toggle for Infinite Jump
+local ToggleInfJump = Tabs.player:AddToggle("InfJump", { Title = "Infinite Jump", Default = false })
+
+local InfiniteJumpEnabled = false
+
+ToggleInfJump:OnChanged(function(Value)
+    InfiniteJumpEnabled = Value
+end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        local character = game.Players.LocalPlayer.Character
+        local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+
+--= server tab =--
+
+
+
+
+
+
+
+
+    Tabs.server:AddButton({
+        Title = "Rejoin",
+        Callback = function()
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		end
+    })
+   Tabs.server:AddButton({
+        Title = "Server Hop",
+        Callback = function()
+
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local function HopToServer()
+    local player = Players.LocalPlayer 
+    local placeId = game.PlaceId   
+    
+    local success, errorMessage = pcall(function()
+        TeleportService:Teleport(placeId, player) 
+    end)
+    
+    if not success then
+        warn("Failed to hop to another server: " .. errorMessage)
+    else
+        print("Successfully hopped to a new server!")
+    end
+end
+
+HopToServer()
+
+
+		end
+    })
+
+
+
+
+
+
+--= end =--
+
+
+
+
+--= target Tab =--
+
+
+
+
+
+
+
+
+local Dropdown = Tabs.target:AddDropdown("Dropdown", {
+    Title = "Select Player",
+    Values = Plr,
+    Multi = false,
+    Default = 1,
+})
+
+Dropdown:SetValue(Plr[1])
+
+Dropdown:OnChanged(function(Value)
+    print("Target selected:", Value)
+end)
+
+local ToggleUpdate = Tabs.target:AddToggle("Auto Update Player", {
+    Title = "Auto Update Player",
+    Default = false
+})
+
+local lastUpdated = tick()
+local autoUpdateEnabled = false
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if autoUpdateEnabled then
+        local currentTime = tick()
+        if currentTime - lastUpdated >= 1 then  
+            lastUpdated = currentTime
+            local playerName = Dropdown.Value  
+            Dropdown:SetValue(playerName)  
+        end
+    end
+end)
+
+ToggleUpdate:OnChanged(function(Value)
+    autoUpdateEnabled = Value 
+    lastUpdated = tick()
+end)
+
+local ToggleKill = Tabs.teleport:AddToggle("Auto Kill", { 
+    Title = "Auto Teleport",
+    Default = false
+})
+
+ToggleKill:OnChanged(function(Value)
+    local killEnabled = Value
+    if killEnabled then
+        _G.TPPlayer = true
+        while _G.TPPlayer do
+            local targetPlayer = game.Players[Dropdown.Value]  
+            if targetPlayer and targetPlayer.Character then
+                local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            end
+            wait(0.1)  
+        end
+    else
+        _G.TPPlayer = false
+    end
+end)
+
+Tabs.target:AddButton({
+    Title = "Teleport",
+    Callback = function()
+ local targetPlayer = game.Players[Dropdown.Value]  
+            if targetPlayer and targetPlayer.Character then
+                local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            end
+    end
+})
+
+local ToggleViewPlayer = Tabs.target:AddToggle("ViewPlayer", { 
+    Title = "View Player",
+    Default = false
+})
+
+local viewingPlayer = false
+ToggleViewPlayer:OnChanged(function(Value)
+    viewingPlayer = Value
+    if viewingPlayer then
+        local targetPlayer = game.Players[Dropdown.Value]
+        if targetPlayer and targetPlayer.Character then
+            local camera = workspace.CurrentCamera
+            camera.CameraSubject = targetPlayer.Character:FindFirstChild("Humanoid") or targetPlayer.Character
+            camera.CameraType = Enum.CameraType.Follow
+        end
+    else
+        local camera = workspace.CurrentCamera
+        camera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+        camera.CameraType = Enum.CameraType.Custom
+    end
+end)
+
+
+local ToggleKill = Tabs.target:AddToggle("Auto Kill", { 
+    Title = "Auto Teleport",
+    Default = false
+})
+
+ToggleKill:OnChanged(function(Value)
+    local killEnabled = Value
+    if killEnabled then
+        _G.TPPlayer = true
+        while _G.TPPlayer do
+            local targetPlayer = game.Players[Dropdown.Value]  
+            if targetPlayer and targetPlayer.Character then
+                local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            end
+            wait(0.1)  
+        end
+    else
+        _G.TPPlayer = false
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--= end =--
+
+
+
+
+
+--= fe Tab =--
+
+
+
+
+
+
+Tabs.fe:AddButton({
+        Title = "FE car",
+        Callback = function()
+          if game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").RigType == Enum.HumanoidRigType.R6 then
+	
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 60
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = 20
+			game:GetService("Players").LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = "rbxassetid://129342287"
+			game:GetService("Players").LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://129342287"
+			game:GetService("Players").LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = "rbxassetid://129342287"
+			game:GetService("Players").LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://129342287"
+			game:GetService("Players").LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://129342287"
+			game:GetService("Players").LocalPlayer.Character.Animate.jump.JumpAnim.AnimationId = "rbxassetid://129342287"
+			for i, thing in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+				if thing.ClassName == "Part" then
+					thing.CustomPhysicalProperties = PhysicalProperties.new(0.04, 0, 0)
+				end
+			end
+			local r6height = "-1.03"
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").HipHeight = r6height
+	
+		elseif game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").RigType == Enum.HumanoidRigType.R15 then
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = 60
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = 20
+			game:GetService("Players").LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = "rbxassetid://3360694441"
+			game:GetService("Players").LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "rbxassetid://3360694441"
+			game:GetService("Players").LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = "rbxassetid://3360694441"
+			game:GetService("Players").LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "rbxassetid://3360694441"
+			game:GetService("Players").LocalPlayer.Character.Animate.idle.Animation2.AnimationId = "rbxassetid://3360694441"
+			game:GetService("Players").LocalPlayer.Character.Animate.jump.JumpAnim.AnimationId = "rbxassetid://3360694441"
+			for i, thing in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+				if thing.ClassName == "MeshPart" then
+					thing.CustomPhysicalProperties = PhysicalProperties.new(0.04, 0, 0)
+				end
+			end
+			local r15height = "0.56"
+			game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid").HipHeight = r15height
+		end
+        end
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+--= end =--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+
+SaveManager:IgnoreThemeSettings()
+
+SaveManager:SetIgnoreIndexes({})
+
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+end
+
+SaveManager:LoadAutoloadConfig()
+

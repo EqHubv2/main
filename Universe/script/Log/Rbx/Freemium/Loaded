@@ -98,7 +98,7 @@ elseif Fuckingdick == 18668065416 then
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BlueLock%3ARivials/Loaded"))()
 
-elseif Fuckingdick ==  then
+elseif Fuckingdick == 537413528 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BuildaboatForTreasure/Loaded"))() -- beta
 else
      game.StarterGui:SetCore("SendNotification", {

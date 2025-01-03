@@ -1,0 +1,186 @@
+local player = game.Players.LocalPlayer
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Build a boat for treasure",
+    SubTitle = "by Eq Hub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+	    s = Window:AddTab({ Title = "Delete", Icon = "trash-2" }),
+    Main = Window:AddTab({ Title = "Farm", Icon = "chevrons-up" })
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "Welcome, " .. player.DisplayName .. "!",
+        SubContent = "@" .. player.Name, 
+        Duration = 5 
+    })
+
+
+
+
+
+
+
+    Tabs.s:AddButton({
+        Title = "Delete DestroyBoatPart",
+        Description = "If you go to the end Your boat can't get destory!",
+        Callback = function()
+          workspace.BoatStages.NormalStages.TheEnd.DestroyBoatPart:Destroy()
+        end
+    })
+
+
+
+
+
+
+    Tabs.s:AddButton({
+        Title = "Delete water",
+        Description = "You can walk in water",
+        Callback = function()
+local function deleteWater()
+    local workspace = game:GetService("Workspace")
+    
+    for _, object in pairs(workspace:GetDescendants()) do
+        if object:IsA("BasePart") then
+            if (object.Name:lower():find("water") or object.Material == Enum.Material.Water) then
+                object:Destroy()
+            end
+        end
+    end
+
+end
+
+deleteWater()        end
+    })
+
+
+
+    Tabs.s:AddButton({
+        Title = "Delete Rock",
+        Description = "Delete part name rock",
+        Callback = function()
+          workspace.BoatStages.NormalStages.TheEnd.DestroyBoatPart:Destroy()
+        end
+    })
+
+
+
+
+
+
+
+
+
+
+
+------------------------------ Farm tab
+ 
+
+
+
+
+local Toggle = Tabs.Main:AddToggle("MyToggle", { Title = "Auto Farm", Default = false })
+    Toggle:OnChanged(function()
+local e = Options.MyToggle.Value
+if e == true then
+    _G.open = true
+
+    local TweenService = game:GetService("TweenService")
+    local player = game.Players.LocalPlayer
+
+    local humanoidRootPart
+
+    local function setupCharacter()
+        local character = player.Character or player.CharacterAdded:Wait()
+        humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    end
+
+    setupCharacter()
+
+    player.CharacterAdded:Connect(function()
+        wait(1)
+        setupCharacter()
+    end)
+
+    local function teleportTo(targetCFrame, tweenDuration)
+        if humanoidRootPart.CFrame == targetCFrame then
+            return
+        end
+
+        local tweenInfo = TweenInfo.new(
+            tweenDuration,
+            Enum.EasingStyle.Linear,
+            Enum.EasingDirection.InOut
+        )
+
+        local goal = {
+            CFrame = targetCFrame
+        }
+
+        local tween = TweenService:Create(humanoidRootPart, tweenInfo, goal)
+        tween:Play()
+        tween.Completed:Wait()
+    end
+
+    task.spawn(function()
+        while _G.open do
+            local success, errorMessage = pcall(function()
+                teleportTo(CFrame.new(-51.5656433, 79.0000458, 1369.09009), 1)
+
+                teleportTo(CFrame.new(-41.1640701, 79.1960754, 8819.35254), 7)
+
+                teleportTo(CFrame.new(-55.7065125, -358.739624, 9492.35645), 3)
+				wait(10)
+            end)
+
+            if not success then
+                warn("Error in teleport loop:", errorMessage)
+                _G.open = false
+            end
+
+        end
+    end)
+else
+    _G.open = false
+end
+
+
+
+end)
+Options.MyToggle:SetValue(false)
+
+
+
+    
+   
+
+
+
+
+
+
+
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+
+
+end

@@ -1,138 +1,195 @@
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+local G2L = {};
 
-local outerBackground = Instance.new("Frame")
-outerBackground.Size = UDim2.new(1, 0, 1, 0)
-outerBackground.Position = UDim2.new(0, 0, 0, 0) 
-outerBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 05) 
-outerBackground.BackgroundTransparency = 0.7 
-outerBackground.BorderSizePixel = 0 
-outerBackground.Parent = screenGui
+-- StarterGui.LoadGUI
+G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"]["Name"] = [[LoadGUI]];
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
 
-local backgroundFrame = Instance.new("Frame")
-backgroundFrame.Size = UDim2.new(0, 400, 0, 50)  
-backgroundFrame.Position = UDim2.new(0.5, -200, 0.5, -25)
-backgroundFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
-backgroundFrame.BackgroundTransparency = 0 
-backgroundFrame.BorderSizePixel = 0 
-backgroundFrame.Parent = outerBackground 
+-- StarterGui.LoadGUI.main
+G2L["2"] = Instance.new("Frame", G2L["1"]);
+G2L["2"]["BorderSizePixel"] = 0;
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
+G2L["2"]["Size"] = UDim2.new(0, 582, 0, 207);
+G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2"]["Position"] = UDim2.new(0.3479623794555664, 0, 0.373308926820755, 0);
+G2L["2"]["Name"] = [[main]];
 
-local progressLabel = Instance.new("TextLabel")
-progressLabel.Size = UDim2.new(1, 0, 1, 0) 
-progressLabel.Position = UDim2.new(0, 0, 0, 0) 
-progressLabel.BackgroundTransparency = 1  
-progressLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  
-progressLabel.Font = Enum.Font.SourceSans
-progressLabel.TextSize = 24
-progressLabel.Text = "[       ] 0%"  
-progressLabel.Parent = backgroundFrame 
+-- StarterGui.LoadGUI.main.Load
+G2L["3"] = Instance.new("TextLabel", G2L["2"]);
+G2L["3"]["BorderSizePixel"] = 0;
+G2L["3"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
+G2L["3"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["3"]["TextSize"] = 14;
+G2L["3"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["3"]["Size"] = UDim2.new(0, 582, 0, 184);
+G2L["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["3"]["Text"] = [[Executor not support]];
+G2L["3"]["Name"] = [[Load]];
 
-local totalLength = 32 
-local delayTime = 0.000001 
-local currentLength = 0 
+-- StarterGui.LoadGUI.main.Load.Load
+G2L["4"] = Instance.new("LocalScript", G2L["3"]);
+G2L["4"]["Name"] = [[Load]];
 
-local function updateProgress()
-    while currentLength <= totalLength do
-        local percentage = math.floor((currentLength / totalLength) * 100)
-        
-        local progress = string.rep("#", currentLength) .. string.rep(" ", totalLength - currentLength)
-        
-        progressLabel.Text = "[" .. progress .. "] " .. percentage .. "%" 
-        
-        if percentage >= 85 and percentage < 100 then
-            progressLabel.TextColor3 = Color3.fromRGB(255, 255, 0) 
-        elseif percentage == 100 then
-            progressLabel.TextColor3 = Color3.fromRGB(0, 255, 0) 
-        else
-            progressLabel.TextColor3 = Color3.fromRGB(255, 255, 255) 
-        end
-        
-        if percentage == 42 then
-            local placeId = game.PlaceId
-             if placeId ~= 16721806812 and placeId ~= 286090429 and placeId ~= 12768419991 and placeId ~= 6403373529 and placeId ~= 16281300371 then
-                progressLabel.Text = "Failed to download"
-                progressLabel.TextColor3 = Color3.fromRGB(255, 0, 0)  
-                print("WrongPlaceid") 
-                outerBackground:Destroy() 
-                screenGui:Destroy()   
-                return 
-            end
-        end
-        
-        wait(delayTime)
-        
-        currentLength = currentLength + 1
-    end
+-- StarterGui.LoadGUI.main.Load_A
+G2L["5"] = Instance.new("TextLabel", G2L["2"]);
+G2L["5"]["BorderSizePixel"] = 0;
+G2L["5"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["5"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["5"]["FontFace"] = Font.new([[rbxasset://fonts/families/ComicNeueAngular.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["5"]["TextSize"] = 14;
+G2L["5"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["5"]["Size"] = UDim2.new(0, 582, 0, 21);
+G2L["5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["5"]["Text"] = [[CAN'T LOAD!]];
+G2L["5"]["Name"] = [[Load_A]];
+G2L["5"]["BackgroundTransparency"] = 1;
+G2L["5"]["Position"] = UDim2.new(0, 0, 0.8943045139312744, 0);
 
-    progressLabel.Text = "[" .. string.rep("#", totalLength) .. "] 100%"
+-- StarterGui.LoadGUI.main.Load_A.Check
+G2L["6"] = Instance.new("LocalScript", G2L["5"]);
+G2L["6"]["Name"] = [[Check]];
+
+-- StarterGui.LoadGUI.main.Load_A.load_A
+G2L["7"] = Instance.new("LocalScript", G2L["5"]);
+G2L["7"]["Name"] = [[load_A]];
+
+-- StarterGui.LoadGUI.main.Load.Load
+local function C_4()
+local script = G2L["4"];
+	local function t(text)
+		script.Parent.Text = text
+	end
+	
+	
+	while wait(0.1) do
+		t("Loading...")
+		wait(0.1)	
+		t("Loading..")
+		wait(0.1)	
+		t("Loading.")
+		wait(0.1)
+		t("Loading..")
+		wait(0.1)	
+	end
+end;
+task.spawn(C_4);
+-- StarterGui.LoadGUI.main.Load_A.Check
+local function C_6()
+local script = G2L["6"];
+	
+	
+	
+	
+	wait(2)
+	if script.Parent.Text == "CAN'T LOAD!" then
+		script.Parent.Text = "DestoryGui | Reason : Script Can't be Loaded |"
+		wait(3)
+		script.Parent.Parent:Destroy()
+	end
+end;
+task.spawn(C_6);
+-- StarterGui.LoadGUI.main.Load_A.load_A
+local function C_7()
+local script = G2L["7"];
+	local function t(text)
+		script.Parent.Text = text
+	end
+	
+	local MarketplaceService = game:GetService("MarketplaceService")
+	
+	local success, info = pcall(function()
+		return MarketplaceService:GetProductInfo(game.PlaceId)
+	end)
+	
+	if success then
+	
+		local text = {
+			t = "16721806812 286090429 12768419991 6403373529 16281300371 142823291 7993293100 18668065416 537413528"
+		}
+	
+		t("Check PlaceId : " .. game.PlaceId)
+		wait(2)
+		t("Check Game Name : " .. info.Name)                 
+		wait(2)
+		t("Check Script : " .. text.t)
+		wait(2)
+		t("Start Script")
+		wait(1)
+		
+		
+		
+		---------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		
+		local Fuckingdick = game.PlaceId
+	
+		if Fuckingdick == 16721806812 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/TougueBattles/source/script/loaded"))()
+	
+		elseif Fuckingdick == 286090429 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/arsenal/script/source/loaded"))()
+	
+		elseif Fuckingdick == 12768419991 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/JunkPunk%3ABuildandFly/Loaded"))()
+	
+		elseif Fuckingdick == 6403373529 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapbattles/script/loaded"))()
+	
+		elseif Fuckingdick == 16281300371 then
+	
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/Myairport%5BBETA%5D/Loaded"))()
+	
+		elseif Fuckingdick == 142823291 then
+	
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/mm2/Loaded"))()
+	
+		elseif Fuckingdick == 7993293100 then
+	
+	
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/TsunamiGame/Loaded"))()
+	
+		elseif Fuckingdick == 18668065416 then
+	
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BlueLock%3ARivials/Loaded"))()
+	
+		elseif Fuckingdick == 537413528 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BuildaboatForTreasure/Loaded"))() -- beta
+		else
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Eq Hub",
+				Text = "This Game Not Support! we will start Universe script" ,
+				Button1 = "OK",
+				Duration = math.huge
+			})
+	
+	
+	
+	
+	
+	
+	
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/Universe/All/Games/Loaded",true))()
+	
+	
+		end
 
 
-local Fuckingdick = game.PlaceId
- 
-if Fuckingdick == 16721806812 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/TougueBattles/source/script/loaded"))()
- 
-elseif Fuckingdick == 286090429 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/arsenal/script/source/loaded"))()
-  
-elseif Fuckingdick == 12768419991 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/JunkPunk%3ABuildandFly/Loaded"))()
- 
-elseif Fuckingdick == 6403373529 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/slapbattles/script/loaded"))()
- 
-elseif Fuckingdick == 16281300371 then
- 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/Myairport%5BBETA%5D/Loaded"))()
-
-elseif Fuckingdick == 142823291 then
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/mm2/Loaded"))()
-
-elseif Fuckingdick == 7993293100 then
+		---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/TsunamiGame/Loaded"))()
+		script.Parent.Parent.Parent:Destroy()
+	else
+		warn("Cant be Loaded!")
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+end;
+task.spawn(C_7);
 
-elseif Fuckingdick == 18668065416 then
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BlueLock%3ARivials/Loaded"))()
-
-elseif Fuckingdick == 537413528 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BuildaboatForTreasure/Loaded"))() -- beta
-else
-     game.StarterGui:SetCore("SendNotification", {
-    Title = "Eq Hub",
-    Text = "This Game Not Support! we will start Universe script" ,
-    Button1 = "OK",
-    Duration = math.huge
-})
-
-
-
-
-
-
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/main/script/Universe/All/Games/Loaded",true))()
-
-
-
-
-
-
-
-
-
-
-end
-
-
-    wait(1)
-    progressLabel:Destroy()
-    backgroundFrame:Destroy()  
-    outerBackground:Destroy()
-    screenGui:Destroy() 
-end
-
-updateProgress()
+return G2L["1"], require;

@@ -154,7 +154,13 @@ local script = G2L["7"];
 	
 		elseif Fuckingdick == 537413528 then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/BuildaboatForTreasure/Loaded"))() -- beta
+
+		elseif Fuckingdick == 8815018120 then
+
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHubv2/main/refs/heads/main/script/TOHBUT/Loaded"))() 
+
 		else
+
 			game.StarterGui:SetCore("SendNotification", {
 				Title = "Eq Hub",
 				Text = "This Game Not Support! we will start Universe script" ,

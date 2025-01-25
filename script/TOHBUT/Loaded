@@ -1,0 +1,167 @@
+local sn = "TOH but with rising lava"
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = sn,
+    SubTitle = "by EqHub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, 
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--https://lucide.dev/icons/ 
+local Tabs = {
+    Main = Window:AddTab({ Title = "Win", Icon = "party-popper" }),
+	    pl = Window:AddTab({ Title = "Player", Icon = "users" }),
+
+    Settings = Window:AddTab({ Title = "UI Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+local player = game.Players.LocalPlayer
+    Fluent:Notify({
+        Title = "Eq Hub",
+        Content = "Welcome, " .. player.DisplayName,
+        SubContent = "@" .. player.Name, 
+        Duration = 5 
+    })
+
+
+
+
+
+
+
+    Tabs.Main:AddButton({
+        Title = "Win",
+        Callback = function()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10.291146278381348,13.51618480682373,173.3980255126953)
+		wait(0.2)
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25.512989, 1003.72284, 235.30899, -0.677350223, -2.7430568e-08, -0.735660732, -1.48054839e-08, 1, -2.36550211e-08, 0.735660732, -5.13092058e-09, -0.677350223)
+
+		
+        end
+    })
+
+
+-------- pl tab -----------
+
+
+
+    local Slider = Tabs.pl:AddSlider("Slider", {
+        Title = "Speed Power",
+        Default = 2,
+        Min = 16,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+                 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+
+    end)
+
+    Slider:SetValue(3)
+
+    local Slider = Tabs.pl:AddSlider("Slider", {
+        Title = "Jump Power",
+        Default = 2,
+        Min = 50,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+        end
+    })
+
+    Slider:OnChanged(function(Value)
+                 game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+
+    end)
+
+    Slider:SetValue(3)
+
+
+    Tabs.pl:AddParagraph({
+        Title = "Misc",
+    })
+	
+
+local ToggleNoclip = Tabs.pl:AddToggle("Noclip", { Title = "Noclip", Default = false })
+
+_G.noclip = false
+
+ToggleNoclip:OnChanged(function(Value)
+    _G.noclip = Value
+end)
+
+game:GetService("RunService").Stepped:Connect(function()
+    if _G.noclip then
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false -- Disable collision for noclip
+                end
+            end
+        end
+    end
+end)
+
+local ToggleInfJump = Tabs.pl:AddToggle("InfJump", { Title = "Infinite Jump", Default = false })
+
+local InfiniteJumpEnabled = false
+
+ToggleInfJump:OnChanged(function(Value)
+    InfiniteJumpEnabled = Value
+end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        local character = game.Players.LocalPlayer.Character
+        local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+
+
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+SaveManager:IgnoreThemeSettings()
+
+SaveManager:SetIgnoreIndexes({})
+
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Eq Hub",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+SaveManager:LoadAutoloadConfig()
+
+
+end

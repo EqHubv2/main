@@ -1,127 +1,89 @@
+
+Script = {}
+
+function Script:Create()
 local G2L = {};
 
--- StarterGui.LoadGUI
-G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
-G2L["1"]["Name"] = [[LoadGUI]];
-G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+G2L["1"] = Instance.new("ScreenGui", game.CoreGui);
+G2L["1"]["Name"] = [[ez]];
 
--- StarterGui.LoadGUI.main
 G2L["2"] = Instance.new("Frame", G2L["1"]);
 G2L["2"]["BorderSizePixel"] = 0;
-G2L["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
-G2L["2"]["Size"] = UDim2.new(0, 582, 0, 207);
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(37, 37, 37);
+G2L["2"]["Size"] = UDim2.new(0, 365, 0, 100);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["2"]["Position"] = UDim2.new(0.3479623794555664, 0, 0.373308926820755, 0);
-G2L["2"]["Name"] = [[main]];
+G2L["2"]["Position"] = UDim2.new(0.4043887257575989, 0, 0.43887531757354736, 0);
 
--- StarterGui.LoadGUI.main.Load
-G2L["3"] = Instance.new("TextLabel", G2L["2"]);
-G2L["3"]["BorderSizePixel"] = 0;
-G2L["3"]["BackgroundColor3"] = Color3.fromRGB(60, 60, 60);
-G2L["3"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
-G2L["3"]["TextSize"] = 14;
-G2L["3"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["3"]["Size"] = UDim2.new(0, 582, 0, 184);
-G2L["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["3"]["Text"] = [[Executor not support]];
-G2L["3"]["Name"] = [[Load]];
+G2L["3"] = Instance.new("UICorner", G2L["2"]);
 
--- StarterGui.LoadGUI.main.Load.Load
-G2L["4"] = Instance.new("LocalScript", G2L["3"]);
-G2L["4"]["Name"] = [[Load]];
 
--- StarterGui.LoadGUI.main.Load_A
-G2L["5"] = Instance.new("TextLabel", G2L["2"]);
+G2L["4"] = Instance.new("TextLabel", G2L["2"]);
+G2L["4"]["BorderSizePixel"] = 0;
+G2L["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["4"]["TextSize"] = 20;
+G2L["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["Size"] = UDim2.new(0, 237, 0, 48);
+G2L["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["4"]["Text"] = [[Equlity Hub]];
+G2L["4"]["Name"] = [[Ttile]];
+G2L["4"]["BackgroundTransparency"] = 1;
+G2L["4"]["Position"] = UDim2.new(0.07945205271244049, 0, 0, 0);
+
+G2L["5"] = Instance.new("Frame", G2L["4"]);
 G2L["5"]["BorderSizePixel"] = 0;
 G2L["5"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["5"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["5"]["FontFace"] = Font.new([[rbxasset://fonts/families/ComicNeueAngular.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["5"]["TextSize"] = 14;
-G2L["5"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["5"]["Size"] = UDim2.new(0, 582, 0, 21);
+G2L["5"]["Size"] = UDim2.new(0, 309, 0, 1);
 G2L["5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["5"]["Text"] = [[CAN'T LOAD!]];
-G2L["5"]["Name"] = [[Load_A]];
-G2L["5"]["BackgroundTransparency"] = 1;
-G2L["5"]["Position"] = UDim2.new(0, 0, 0.8943045139312744, 0);
+G2L["5"]["Position"] = UDim2.new(0, 0, 0.75, 0);
 
--- StarterGui.LoadGUI.main.Load_A.Check
-G2L["6"] = Instance.new("LocalScript", G2L["5"]);
-G2L["6"]["Name"] = [[Check]];
+G2L["6"] = Instance.new("TextLabel", G2L["5"]);
+G2L["6"]["BorderSizePixel"] = 0;
+G2L["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["6"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal);
+G2L["6"]["TextSize"] = 14;
+G2L["6"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["6"]["Size"] = UDim2.new(0, 309, 0, 29);
+G2L["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["6"]["Text"] = [[Loading script...]];
+G2L["6"]["BackgroundTransparency"] = 1;
+G2L["6"]["Position"] = UDim2.new(0, 0, 12, 0);
 
--- StarterGui.LoadGUI.main.Load_A.load_A
-G2L["7"] = Instance.new("LocalScript", G2L["5"]);
-G2L["7"]["Name"] = [[load_A]];
+G2L["7"] = Instance.new("LocalScript", G2L["6"]);
 
--- StarterGui.LoadGUI.main.Load.Load
-local function C_4()
-local script = G2L["4"];
-	local function t(text)
-		script.Parent.Text = text
-	end
-	
-	
-	while wait(0.1) do
-		t("Loading...")
-		wait(0.1)	
-		t("Loading..")
-		wait(0.1)	
-		t("Loading.")
-		wait(0.1)
-		t("Loading..")
-		wait(0.1)	
-	end
-end;
-task.spawn(C_4);
--- StarterGui.LoadGUI.main.Load_A.Check
-local function C_6()
-local script = G2L["6"];
-	
-	
-	
-	
-	wait(2)
-	if script.Parent.Text == "CAN'T LOAD!" then
-		script.Parent.Text = "DestoryGui | Reason : Script Can't be Loaded |"
-		wait(3)
-		script.Parent.Parent:Destroy()
-	end
-end;
-task.spawn(C_6);
--- StarterGui.LoadGUI.main.Load_A.load_A
+
+G2L["8"] = Instance.new("LocalScript", G2L["6"]);
+
+
 local function C_7()
 local script = G2L["7"];
-	local function t(text)
-		script.Parent.Text = text
-	end
-	
-	local MarketplaceService = game:GetService("MarketplaceService")
-	
-	local success, info = pcall(function()
-		return MarketplaceService:GetProductInfo(game.PlaceId)
-	end)
-	
-	if success then
-	
-		local text = {
-			t = "16721806812 286090429 12768419991 6403373529 16281300371 142823291 7993293100 18668065416 537413528 8815018120"
-		}
-	
-		t("Check PlaceId : " .. game.PlaceId)
-		wait(2)
-		t("Check Game Name : " .. info.Name)                 
-		wait(2)
-		t("Check Script : " .. text.t)
-		wait(2)
-		t("Start Script")
+	wait(4)
+	if string.find(tostring(identifyexecutor()), "JJSploit") or string.find(tostring(identifyexecutor()), "Xeno") then
+		script.Parent.Text = "Executor not support!"
 		wait(1)
+	script.Parent.Text = "Closing Gui."
+	
+		wait(0.2)
+	
+		script.Parent.Text = "Closing Gui.."
+		wait(0.2)
+	
+		script.Parent.Text = "Closing Gui..."
 		
-		
-		
-		---------------------------------------------------------------------------------------------------------------------------------------------------------------
-		
-		
-		local Fuckingdick = game.PlaceId
+		wait(1)
+		script.Parent.Parent.Parent.Parent.Parent:Destroy()
+	
+		print("Use another not with xeno and jjsploit")
+	else
+		script.Parent.Text = "Running Script."
+		wait(0.2)
+		script.Parent.Text = "Running Script.."
+		wait(0.2)
+		script.Parent.Text = "Running Script..."
+		wait(0.2)
+		script.Parent.Parent.Parent.Parent.Parent:Destroy()
+        local Fuckingdick = game.PlaceId
 	
 		if Fuckingdick == 16721806812 then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/EqHub/main/main/TougueBattles/source/script/loaded"))()
@@ -178,24 +140,33 @@ local script = G2L["7"];
 	
 	
 		end
-
-
-		---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-		script.Parent.Parent.Parent:Destroy()
-	else
-		warn("Cant be Loaded!")
 	end
-	
-	
-	
-	
-	
+end;
+task.spawn(C_7);
+local function C_8()
+local script = G2L["8"];
+	wait(2)
+	script.Parent.Text = "Check Executor."
+	wait(0.3)
+	script.Parent.Text = "Check Executor.."
+	wait(0.3)
+	script.Parent.Text = "Check Executor..."
+	wait(0.3)
+	script.Parent.Text = "Check Executor."
+	wait(0.3)
+	script.Parent.Text = "Check Executor.."
+	wait(0.3)
+	script.Parent.Text = "Check Executor..."
+	wait(0.3)
 	
 	
 	
 end;
-task.spawn(C_7);
+task.spawn(C_8);
 
 return G2L["1"], require;
+end
+
+Script:Create()
+
+return
